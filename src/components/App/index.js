@@ -34,27 +34,13 @@ import pluto from '../../planets-better/pluto.png';
 
 // import Meme from '../Meme';
 
-const gridAreas = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'k'];
-function goToMiddle(gridArea) {
-	document.querySelector(`.${gridArea}`).classList.add(`isSelected`);
-	document.querySelectorAll('.content').forEach((li) => li.classList.add('planetsLeave'));
-	document.querySelector(`.isSelected`).classList.remove('planetsLeave');
-	document.querySelector(`.isSelected`).classList.add('e');
-	document.querySelector(`.isSelected`).classList.remove(`${gridArea}`);
+// const gridAreas = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'k'];
 
-	return;
-}
-
-function reverseSpaceTime() {
-	document.querySelectorAll('.content').forEach((li) => li.classList.remove('isSelected'));
-	document.querySelectorAll('.content').forEach((li) => li.classList.remove('planetsLeave'));
-	document.querySelectorAll('.content').forEach((li) => li.classList.remove('e'));
-	document
-		.querySelectorAll('.content')
-		.forEach((li, index) => li.classList.add(gridAreas[index]));
-}
 function App() {
 	const [memes, setMemes] = useState([]);
+	const [selectedPlanet, setSelectedPlanet] = useState(null);
+	const [isHidden, setIsHidden] = useState(false);
+
 	useEffect(() => {
 		fetch(`https://meme-api.herokuapp.com/gimme/9`)
 			.then((res) => {
@@ -65,18 +51,27 @@ function App() {
 			});
 	}, []);
 	// console.log(memes);
+	function goToMiddle(planet) {
+		setSelectedPlanet(planet);
+		setIsHidden(true);
+		return;
+	}
+	function reverseSpaceTime() {
+		setIsHidden(false);
+		setSelectedPlanet(null);
+	}
 
 	return (
 		<>
 			<Router>
 				<nav>
-					<div id="grid-container">
-						<li className="header">
-							<Link to="/">
-								<h1>INTERGALACTIC DANK MEMES</h1>
-							</Link>
-						</li>
-						<li
+					<li className="header">
+						<Link to="/" onClick={reverseSpaceTime}>
+							<h1>INTERGALACTIC DANK MEMES</h1>
+						</Link>
+					</li>
+					<div className="grid-container">
+						{/* <li
 							className="header reverse"
 							onClick={() => {
 								reverseSpaceTime('reverse');
@@ -85,11 +80,17 @@ function App() {
 							<Link to="/">
 								<h5>REVERSE SPACE TIME CONTINUUM</h5>
 							</Link>
-						</li>
+						</li> */}
 						<li
-							className="content a"
+							className={
+								selectedPlanet === 'venus'
+									? 'selected a'
+									: isHidden
+									? 'a hidden'
+									: 'a'
+							}
 							onClick={() => {
-								goToMiddle('a');
+								goToMiddle('venus');
 							}}
 						>
 							<Link to="/venus">
@@ -97,9 +98,15 @@ function App() {
 							</Link>
 						</li>
 						<li
-							className="content b"
+							className={
+								selectedPlanet === 'mercury'
+									? 'selected b'
+									: isHidden
+									? 'b hidden'
+									: 'b'
+							}
 							onClick={() => {
-								goToMiddle('b');
+								goToMiddle('mercury');
 							}}
 						>
 							<Link to="/mercury">
@@ -107,9 +114,15 @@ function App() {
 							</Link>
 						</li>
 						<li
-							className="content c"
+							className={
+								selectedPlanet === 'earth'
+									? 'selected c'
+									: isHidden
+									? 'c hidden'
+									: 'c'
+							}
 							onClick={() => {
-								goToMiddle('c');
+								goToMiddle('earth');
 							}}
 						>
 							<Link to="/earth">
@@ -117,9 +130,15 @@ function App() {
 							</Link>
 						</li>
 						<li
-							className="content d"
+							className={
+								selectedPlanet === 'mars'
+									? 'selected d'
+									: isHidden
+									? 'd hidden'
+									: 'd'
+							}
 							onClick={() => {
-								goToMiddle('d');
+								goToMiddle('mars');
 							}}
 						>
 							<Link to="/mars">
@@ -127,9 +146,15 @@ function App() {
 							</Link>
 						</li>
 						<li
-							className="content e"
+							className={
+								selectedPlanet === 'sun'
+									? 'selected e'
+									: isHidden
+									? 'e hidden'
+									: 'e'
+							}
 							onClick={() => {
-								goToMiddle('e');
+								goToMiddle('sun');
 							}}
 						>
 							<Link to="/sun">
@@ -137,9 +162,15 @@ function App() {
 							</Link>
 						</li>
 						<li
-							className="content f"
+							className={
+								selectedPlanet === 'jupiter'
+									? 'selected f'
+									: isHidden
+									? 'f hidden'
+									: 'f'
+							}
 							onClick={() => {
-								goToMiddle('f');
+								goToMiddle('jupiter');
 							}}
 						>
 							<Link to="/jupiter">
@@ -147,9 +178,15 @@ function App() {
 							</Link>
 						</li>
 						<li
-							className="content g"
+							className={
+								selectedPlanet === 'saturn'
+									? 'selected g'
+									: isHidden
+									? 'g hidden'
+									: 'g'
+							}
 							onClick={() => {
-								goToMiddle('g');
+								goToMiddle('saturn');
 							}}
 						>
 							<Link to="/saturn">
@@ -157,9 +194,15 @@ function App() {
 							</Link>
 						</li>
 						<li
-							className="content h"
+							className={
+								selectedPlanet === 'uranus'
+									? 'selected h'
+									: isHidden
+									? 'h hidden'
+									: 'h'
+							}
 							onClick={() => {
-								goToMiddle('h');
+								goToMiddle('uranus');
 							}}
 						>
 							<Link to="/uranus">
@@ -167,9 +210,15 @@ function App() {
 							</Link>
 						</li>
 						<li
-							className="content i"
+							className={
+								selectedPlanet === 'neptune'
+									? 'selected i'
+									: isHidden
+									? 'i hidden'
+									: 'i'
+							}
 							onClick={() => {
-								goToMiddle('i');
+								goToMiddle('neptune');
 							}}
 						>
 							<Link to="/neptune">
@@ -177,9 +226,15 @@ function App() {
 							</Link>
 						</li>
 						<li
-							className="content k"
+							className={
+								selectedPlanet === 'pluto'
+									? 'selected k'
+									: isHidden
+									? 'k hidden'
+									: 'k'
+							}
 							onClick={() => {
-								goToMiddle('k');
+								goToMiddle('pluto');
 							}}
 						>
 							<Link to="/pluto">
